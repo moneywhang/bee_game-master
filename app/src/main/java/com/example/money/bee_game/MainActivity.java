@@ -20,10 +20,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.IntStream;
 
 
 public class MainActivity extends Activity {
@@ -42,7 +44,11 @@ public class MainActivity extends Activity {
     int pc_height,pc_width;
     DisplayMetrics displaymetrics;
     ListView listView_use;
-    int RorL =0;
+    int RorL =0 , random_count,another_count,couunt,random_top;
+    boolean catch_stus =false,chang_stus=false;
+    int [] mapping=new int[]{0,1,2,3,4,5};
+    Timer timer ;
+    ArrayList<RelativeLayout.LayoutParams>useAry_parms=new ArrayList<>();
     //ArrayAdapter<String> btArrayAdapter;
 
     @Override
@@ -58,6 +64,8 @@ public class MainActivity extends Activity {
 
         //righ_xml.setVisibility(View.VISIBLE);
        Bl_0 =new bluetooth_40(this);
+        timer =new Timer();
+        timer.schedule(tsk,0,1000);
         thread1 =new Thread(new Runnable() {
             @Override
             public void run() {
@@ -90,6 +98,21 @@ public class MainActivity extends Activity {
 
 
     }
+    private TimerTask tsk =new TimerTask() {
+        @Override
+        public void run() {
+         /*   couunt++;
+            if(couunt %5==0){{
+                random_count  =(int)(Math.random()*6);
+            }}
+
+            Message s1 =new Message();
+            s1.what =8;
+            mHandler.sendMessage(s1);*/
+
+
+        }
+    };
     private void thread_beeall(){
         thread2 =new Thread(new Runnable() {
             @Override
@@ -192,13 +215,15 @@ public class MainActivity extends Activity {
                 }
             }
         });
+
       thread1.start();
-       /* thread2.start();
-        thread3.start();
-        thread4.start();
+        thread2.start();
+       thread3.start();
+       /* thread4.start();
         thread5.start();
-        thread6.start();
-        thread7.start();*/
+        thread6.start();*/
+       // thread7.start();
+
     }
     private  void changepage(){
         if(Bl_0.BLe_stus==true){
@@ -277,6 +302,12 @@ public class MainActivity extends Activity {
         bee4Params =(RelativeLayout.LayoutParams) beeimg[3].getLayoutParams();
         bee5Params =(RelativeLayout.LayoutParams) beeimg[4].getLayoutParams();
         bee6Params =(RelativeLayout.LayoutParams) beeimg[5].getLayoutParams();
+        useAry_parms.add(bee1Params);
+        useAry_parms.add(bee2Params);
+        useAry_parms.add(bee3Params);
+        useAry_parms.add(bee4Params);
+        useAry_parms.add(bee5Params);
+        useAry_parms.add(bee6Params);
         displaymetrics =new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         pc_height =displaymetrics.heightPixels;
@@ -299,36 +330,51 @@ public class MainActivity extends Activity {
             switch (msg.what){
                 case 1:
                    movehand();
+                 //  Random_obj();
                    Catch_function(layoutParams,bee1Params,beeimg[0]);
                     break;
                 case  2:
                     RorL=1;
-                    move_useobj(bee1Params,beeimg[0],RorL);
+                    move_useobj(bee1Params,beeimg[0],RorL,useAry_parms);
                     break;
                 case 3:
                     RorL=1;
-                    move_useobj(bee2Params,beeimg[1],RorL);
+                    move_useobj(bee2Params,beeimg[1],RorL,useAry_parms);
                     break;
                 case 4:
                     RorL=1;
-                    move_useobj(bee3Params,beeimg[2],RorL);
+                    move_useobj(bee3Params,beeimg[2],RorL,useAry_parms);
                     break;
                 case 5:
                     RorL=2;
-                    move_useobj(bee4Params,beeimg[3],RorL);
+                    move_useobj(bee4Params,beeimg[3],RorL,useAry_parms);
                     break;
                 case  6:
                     RorL=2;
-                    move_useobj(bee5Params,beeimg[4],RorL);
+                    move_useobj(bee5Params,beeimg[4],RorL,useAry_parms);
                     break;
                 case  7:
                     RorL=2;
-                    move_useobj(bee6Params,beeimg[5],RorL);
+                    move_useobj(bee6Params,beeimg[5],RorL,useAry_parms);
+                    break;
+                case 8:
+                    //Random_obj();
                     break;
 
             }
         }
     };
+    private  void Random_obj(){
+           // Log.i("jim","random_count :" +random_count);
+           for(int a=0;a<mapping.length;a++){
+               beeimg[mapping[a]].setVisibility(View.GONE);
+
+
+           }
+        random_count  =(int)(Math.random()*2);
+           beeimg[random_count].setVisibility(View.VISIBLE);
+
+    }
     private  void movehand(){
        if(Bl_0.mpu_movestus==true){
            // catch_usenet.layout( catch_usenet.getLeft(), catch_usenet.getTop(), catch_usenet.getRight()+50,catch_usenet.getBottom());
@@ -361,17 +407,13 @@ public class MainActivity extends Activity {
             }
         }
         if(Bl_0.swing_stus==true){
-           // ball_img.setVisibility(View.GONE);
-          /*  Intent intent = new Intent(Intent.ACTION_DIAL);
-            Uri data = Uri.parse("tel:" +"0912496861");
-            intent.setData(data);
-            startActivity(intent);*/
+
         }else{
            // ball_img.setVisibility(View.VISIBLE);
         }
 
     }
-    private  void move_useobj(RelativeLayout.LayoutParams layoutParams1 , ImageView imageView1,int direction){
+    private  void move_useobj(RelativeLayout.LayoutParams layoutParams1 , ImageView imageView1,int direction,ArrayList<RelativeLayout.LayoutParams> FF){
         //移動物件，6個物件
         //
         switch (direction){
@@ -380,9 +422,30 @@ public class MainActivity extends Activity {
                 if(layoutParams1.leftMargin+ 50<pc_width - bee1Params.width){
                     layoutParams1.leftMargin+=50;
                     imageView1.setLayoutParams(layoutParams1);
+                   // chang_stus=false;
                 }else{
-                    layoutParams1.leftMargin=0;
+                    //layoutParams1.leftMargin=0;
+                   // imageView1.setLayoutParams(layoutParams1);
+                    for (int g=0;g<FF.size();g++){
+                        FF.get(g).leftMargin =0;
+                        imageView1.setLayoutParams( FF.get(g));
+                    }
+                  //  random_count  =(int)(Math.random()*2);
+                    Random_obj();
+                }
+                if(layoutParams1.leftMargin+ 50 ==pc_width- bee1Params.width ){
+                    chang_stus=true;
+                }
+                random_top  =50-((int)(Math.random()*100));
+                if(layoutParams1.topMargin>0){
+                    layoutParams1.topMargin+=random_top;
                     imageView1.setLayoutParams(layoutParams1);
+
+                }
+                if(layoutParams1.topMargin==0){
+                    layoutParams1.topMargin=100;
+                    imageView1.setLayoutParams(layoutParams1);
+
                 }
                 break;
             case 2:
@@ -396,36 +459,6 @@ public class MainActivity extends Activity {
                 }
                 break;
         }
-
-
-
-
-       /* if(bee1Params.leftMargin + 50<pc_width - bee1Params.width){
-            bee1Params.leftMargin+=50;
-            beeimg[0].setLayoutParams(bee1Params);
-        }else{
-            bee1Params.leftMargin=0;
-            beeimg[0].setLayoutParams(bee1Params);
-        }
-        //左2
-        if(bee2Params.leftMargin + 50<pc_width - bee2Params.width){
-            bee2Params.leftMargin+=50;
-            beeimg[1].setLayoutParams(bee2Params);
-        }else{
-            bee2Params.leftMargin=0;
-            beeimg[1].setLayoutParams(bee2Params);
-        }
-        //左3
-        if(bee3Params.leftMargin + 50<pc_width - bee3Params.width){
-            bee3Params.leftMargin+=50;
-            beeimg[2].setLayoutParams(bee3Params);
-        }else{
-            bee3Params.leftMargin=0;
-            beeimg[2].setLayoutParams(bee3Params);
-        }*/
-
-
-
     }
     private  void Catch_function(RelativeLayout.LayoutParams net_Params,RelativeLayout.LayoutParams bee_Params,ImageView obj_game){
         /*
@@ -435,7 +468,7 @@ public class MainActivity extends Activity {
         * */
     if(obj_game.getVisibility() ==View.VISIBLE){
         if(bee_Params.leftMargin>net_Params.leftMargin &&(bee_Params.leftMargin + 105 < net_Params.leftMargin +240)){
-            Log.i("jim","捕抓成功");
+            //Log.i("jim","捕抓成功");
         }
     }else{
 
