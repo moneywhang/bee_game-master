@@ -139,7 +139,7 @@ public class MainActivity extends Activity {
                         Message s1 =new Message();
                         s1.what =3;
                         mHandler.sendMessage(s1);
-                        Thread.sleep(100);
+                        Thread.sleep(300);
                     }
 
                 } catch (InterruptedException e) {
@@ -156,7 +156,7 @@ public class MainActivity extends Activity {
                         Message s1 =new Message();
                         s1.what =4;
                         mHandler.sendMessage(s1);
-                        Thread.sleep(600);
+                        Thread.sleep(500);
                     }
 
                 } catch (InterruptedException e) {
@@ -173,7 +173,7 @@ public class MainActivity extends Activity {
                         Message s1 =new Message();
                         s1.what =5;
                         mHandler.sendMessage(s1);
-                        Thread.sleep(100);
+                        Thread.sleep(400);
                     }
 
                 } catch (InterruptedException e) {
@@ -190,7 +190,7 @@ public class MainActivity extends Activity {
                         Message s1 =new Message();
                         s1.what =6;
                         mHandler.sendMessage(s1);
-                        Thread.sleep(200);
+                        Thread.sleep(300);
                     }
 
                 } catch (InterruptedException e) {
@@ -216,11 +216,11 @@ public class MainActivity extends Activity {
             }
         });
 
-      thread1.start();
-        thread2.start();
-       thread3.start();
-       /* thread4.start();
-        thread5.start();
+      thread1.start(); //手
+       thread2.start();
+      thread3.start();
+        thread4.start();
+       /* thread5.start();
         thread6.start();*/
        // thread7.start();
 
@@ -330,7 +330,6 @@ public class MainActivity extends Activity {
             switch (msg.what){
                 case 1:
                    movehand();
-                 //  Random_obj();
                    Catch_function(layoutParams,bee1Params,beeimg[0]);
                     break;
                 case  2:
@@ -358,7 +357,7 @@ public class MainActivity extends Activity {
                     move_useobj(bee6Params,beeimg[5],RorL,useAry_parms);
                     break;
                 case 8:
-                    //Random_obj();
+
                     break;
 
             }
@@ -371,7 +370,7 @@ public class MainActivity extends Activity {
 
 
            }
-        random_count  =(int)(Math.random()*2);
+           random_count  =(int)(Math.random()*3);
            beeimg[random_count].setVisibility(View.VISIBLE);
 
     }
@@ -436,11 +435,12 @@ public class MainActivity extends Activity {
                 if(layoutParams1.leftMargin+ 50 ==pc_width- bee1Params.width ){
                     chang_stus=true;
                 }
-                random_top  =50-((int)(Math.random()*100));
-                if(layoutParams1.topMargin>0){
+
+                random_top  =5-((int)(Math.random()*10));
+
+                if( layoutParams1.topMargin+random_top<1200-layoutParams.height &&layoutParams1.topMargin>0){
                     layoutParams1.topMargin+=random_top;
                     imageView1.setLayoutParams(layoutParams1);
-
                 }
                 if(layoutParams1.topMargin==0){
                     layoutParams1.topMargin=100;
@@ -466,15 +466,26 @@ public class MainActivity extends Activity {
         *  若捕抓物件左右在網子的左右間，及物件上下載往子的上下之間
         *  物件寬度為105，網子為240
         * */
-    if(obj_game.getVisibility() ==View.VISIBLE){
+        for(int g=0;g<beeimg.length;g++){
+            if(beeimg[g].getVisibility() ==View.VISIBLE){
+                if(useAry_parms.get(g).leftMargin>net_Params.leftMargin &&(useAry_parms.get(g).leftMargin + 105 < net_Params.leftMargin +240)){
+                    beeimg[g].setVisibility(View.GONE);
+                    /*
+                                   if(Bl_0.swing_stus==true){
+                        Log.i("jim","捕抓成功");
+                    }else{
+                        Log.i("jim","捕抓失敗");
+                    }*/
+
+
+                }
+            }
+        }
+    /*/if(obj_game.getVisibility() ==View.VISIBLE){
         if(bee_Params.leftMargin>net_Params.leftMargin &&(bee_Params.leftMargin + 105 < net_Params.leftMargin +240)){
             //Log.i("jim","捕抓成功");
         }
-    }else{
-
-    }
-
-
+    }*/
 
     }
 

@@ -42,7 +42,7 @@ public class bluetooth_40 {
     public int rssi_int1;
     BluetoothDevice device;
 
-    public boolean A_disable =false,A_connectstus=false;
+    public boolean A_disable =false,A_connectstus=false,swip_stus =false;
     public static float [] blesetAry =new float[30];
     public static float [] blesetAry1 =new float[30];
     public static float [] blesetAry2 =new float[30];
@@ -50,7 +50,7 @@ public class bluetooth_40 {
     private  int blesetcount =0,blesetcount1=0,blesetcount2 =0,blesetcount3=0;
     float blee,blee1,blee2,blee3;
     public static boolean drawstus =false,serch_stus=false;
-    public  float mpu_x,mpu_y,mpu_z;
+    public  float mpu_x,mpu_y,mpu_z,mpu_z_last;
     //-----------------------------------------------
     public boolean mpu_movestus=false,mpu_moveup =false,swing_stus =false;
     public static  List<String>mBleName;
@@ -373,12 +373,13 @@ public void Read_Rssi(){
         //若x軸為正值 往右移動
         if(movedataX>0){
             mpu_movestus =true;
+          //  Log.i("jim","左移");
         }else{
             mpu_movestus =false;
         }
         if(movedataY<0){
             mpu_moveup =true;
-
+           // Log.i("jim","右移");
         }
         if(movedataY>0)
         {
@@ -386,11 +387,21 @@ public void Read_Rssi(){
 
         }
         //揮擊成立
-        if(movedataZ>1.5){
+        //Log.i("jim","movedataZ"+movedataZ);
+        //若最新減去上一筆
+        if(movedataZ-mpu_z_last>0.5 &&mpu_z_last!=0 &&swip_stus==true){
+            //Log.i("jim","揮擊");
             swing_stus =true;
         }else{
             swing_stus =false;
         }
+        mpu_z_last =movedataZ;
+        if(movedataZ<0.4){
+            swip_stus =true;
+        }else{
+            swip_stus =false;
+        }
+
 
     }
 

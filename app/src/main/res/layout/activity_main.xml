@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/main_xml"
-        android:visibility="visible">
+        android:visibility="gone">
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             android:layout_marginLeft="120dp"
         android:id="@+id/bee_lftig3"
         android:src="@mipmap/bee_right"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -196,7 +196,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/bluelist"
-        android:visibility="gone">
+        android:visibility="visible">
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

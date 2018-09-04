@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\Desktop\Child fitness bracelet\bee_game-master\app\app.iml" filepath="D:\Desktop\Child fitness bracelet\bee_game-master\app\app.iml" />
       <module fileurl="file://D:\Desktop\Child fitness bracelet\bee_game-master\bee_game.iml" filepath="D:\Desktop\Child fitness bracelet\bee_game-master\bee_game.iml" />
       <module fileurl="file://$PROJECT_DIR$/bee_game-master.iml" filepath="$PROJECT_DIR$/bee_game-master.iml" />
     </modules>
